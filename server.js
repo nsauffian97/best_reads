@@ -11,8 +11,10 @@ if(process.env.NODE_ENV !== 'production'){
 const express = require('express')
 const app = express()
 const expressLayouts = require('express-ejs-layouts')
+const bodyParser = require('body-parser')
 
 const indexRouter = require('./routes/index')
+const authorRouter = require('./routes/authors')
 
 /*
 View Engine: responsible for creating HTML from views. It renders our views and convert code into HTML
@@ -30,6 +32,7 @@ app.set('layout', 'layouts/layout')
 app.use(expressLayouts)
 // Telling the app where our public folder will be (stylesheets, images, javascripts)
 app.use(express.static('public'))
+app.use(bodyParser.urlencoded({limit: '10mb', extended: false}))
 
 const mongoose = require('mongoose')
 mongoose.connect(process.env.DATABASE_URL, {useNewURLParser: true})
@@ -38,6 +41,7 @@ db.on('error', error => console.error(error))
 db.once('open', () => console.log('Connected to Mongoose'))
 
 app.use('/', indexRouter)
+app.use('/authors',authorRouter)
 
 // Telling up to listen to a certain port
 app.listen(process.env.PORT || 3000)
