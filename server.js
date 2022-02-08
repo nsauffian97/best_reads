@@ -15,6 +15,7 @@ const bodyParser = require('body-parser')
 
 const indexRouter = require('./routes/index')
 const authorRouter = require('./routes/authors')
+const bookRouter = require('./routes/books')
 
 /*
 View Engine: responsible for creating HTML from views. It renders our views and convert code into HTML
@@ -42,6 +43,7 @@ db.once('open', () => console.log('Connected to Mongoose'))
 
 app.use('/', indexRouter)
 app.use('/authors',authorRouter)
+app.use('/books', bookRouter)
 
 // Telling up to listen to a certain port
 app.listen(process.env.PORT || 3000)
